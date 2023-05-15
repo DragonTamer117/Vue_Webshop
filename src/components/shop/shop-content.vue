@@ -33,10 +33,7 @@ export default {
   methods: {
     async getShopItems() {
       try {
-        const config = {
-          headers: { Authorization: `Bearer ${this.token}`}
-        };
-        const response = await axios.get('http://localhost:8080/api/v1/storageProducts/findAll', config);
+        const response = await axios.get('http://localhost:8080/api/v1/storageProducts');
         this.shopItems = response.data;
       } catch (error) {
         console.error(error);
