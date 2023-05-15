@@ -1,16 +1,16 @@
 <template>
   <div>
-      <p>
-          hello login!
-      </p>
+      <LoginForm></LoginForm>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import LoginForm from "@/components/admin/login/login-form/login-form.vue";
 
 export default {
     name: "login-component",
+    components: {LoginForm},
     data() {
         return {
             shopItems: [],
