@@ -4,7 +4,7 @@
   <button @click="getUserById('4a3addaa-6926-487c-a865-bbaad603be45')">GetUserById</button>
   <div class="flex flex-wrap ">
     <div class="sm:w-full pr-4 pl-4">
-      <div class="relative px-3 py-3 mb-4 border rounded bg-red-200 border-red-300 text-red-800" v-if="true">
+      <div class="relative px-3 py-3 mb-4 border rounded bg-red-200 border-red-300 text-red-800" v-if="shopItems.length != null">
         <p><strong>Probleem met laden van de WinkelInhoud</strong></p>
       </div>
       <shop-item
