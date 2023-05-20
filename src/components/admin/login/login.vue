@@ -1,15 +1,17 @@
 <template>
-    <form>
-        <div class="form-control">
-            <label for="email">E-mail</label>
-            <input type="email" id="email">
-        </div>
-        <div class="form-control">
-            <label for="password">password</label>
-            <input type="password" id="password">
-        </div>
-        <base-button> Login </base-button>
-        <base-Button type="button" mode="flat"> register</base-Button>
+    <form @submit.prevent="submitForm">
+        <base-card>
+            <div class="form-control">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" v-model.trim="email">
+            </div>
+            <div class="form-control">
+                <label for="password">password</label>
+                <input type="password" id="password" v-model.trim="password">
+            </div>
+            <base-button @click="submitForm()"> Login </base-button>
+            <base-Button type="button" mode="flat"> register</base-Button>
+        </base-card>
     </form>
 </template>
 
@@ -22,14 +24,23 @@ export default {
     data() {
         return {
             loggedInCheck: Boolean,
+            email: "",
+            password: "",
+            formIsValid: true,
+            mode: "login",
             authenticationRequest: AuthenticationRequest
         }
     },
     methods: {
-        async loginUser() {
+        async submitForm() {
             try {
-                this.authenticationRequest.email = "SysAdmin@users.com";
-                this.authenticationRequest.password = "sysadmin";
+                this.formIsValid = true;
+                if ( !this.email.includes("@") || this.email.isEmpty ||
+                    this.password.isEmpty || this.password.length < 6) {
+                    return this.formIsValid = false;
+                }
+                this.authenticationRequest.email = this.email;
+                this.authenticationRequest.password = this.password;
 
                 const response = await axios.get('http://localhost:8080/api/v1/auth/login',this.authenticationRequest);
                 this.shopItems = response.data;
@@ -39,7 +50,7 @@ export default {
         }
     },
     mounted() {
-        this.loginUser();
+        this.submitForm();
     }
 }
 </script>
