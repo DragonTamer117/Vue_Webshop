@@ -2,30 +2,30 @@
     <form @submit.prevent="submitForm">
         <base-card>
             <div class="form-control">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" v-model.trim="email">
+                <label for="email">Email</label>
+                <input type="text" id="email" v-model.trim="email">
             </div>
             <div class="form-control">
-                <label for="password">password</label>
+                <label for="password">Password</label>
                 <input type="password" id="password" v-model.trim="password">
             </div>
-            <base-button @click="submitForm()"> Login </base-button>
-            <base-Button type="button" mode="flat"> register</base-Button>
+            <button @click="submitForm()">Login</button>
+            <button type="button" mode="flat">Register</button>
         </base-card>
     </form>
 </template>
 
+
 <script>
 import axios from "axios";
-import { AuthenticationRequest } from "@/components/core/models/AuthenticationRequest";
 
 export default {
     name: "login-component",
     data() {
         return {
-            loggedInCheck: Boolean,
             email: "",
             password: "",
+            loggedInCheck: Boolean,
             formIsValid: true,
             mode: "login",
             token: "",
