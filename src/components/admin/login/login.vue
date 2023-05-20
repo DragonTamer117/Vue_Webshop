@@ -28,22 +28,26 @@ export default {
             password: "",
             formIsValid: true,
             mode: "login",
-            authenticationRequest: AuthenticationRequest
+            token: "",
         }
     },
     methods: {
         async submitForm() {
             try {
+                this.token = "";
                 this.formIsValid = true;
                 if ( !this.email.includes("@") || this.email.isEmpty ||
                     this.password.isEmpty || this.password.length < 6) {
                     return this.formIsValid = false;
                 }
-                this.authenticationRequest.email = this.email;
-                this.authenticationRequest.password = this.password;
 
-                const response = await axios.get('http://localhost:8080/api/v1/auth/login',this.authenticationRequest);
-                this.shopItems = response.data;
+                const authenticationRequest = {
+                    email: this.email,
+                    password: this.password
+                }
+
+                const { data } = await axios.post('http://localhost:8080/api/v1/auth/login', authenticationRequest);
+                this.token = data.token;
             } catch (error) {
                 console.error(error);
             }
