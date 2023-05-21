@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="form-control">
                                     <label for="dateOfBirth" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                    <input type="dateOfBirth" name="dateOfBirth" id="dateOfBirth" v-model.trim="dateOfBirth" placeholder="01-01-1990" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                                    <input type="date" name="dateOfBirth" id="dateOfBirth" v-model.trim="dateOfBirth" placeholder="01-01-1990" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
                                 </div>
                                 <div class="form-control">
                                     <label for="street" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
@@ -86,20 +86,45 @@ export default {
         async submitForm() {
             try {
                 this.formIsValid = true;
-                if ( !this.email.includes("@") || this.email.isEmpty ||
-                    this.password.isEmpty || this.password.length < 6) {
-                    return this.formIsValid = false;
-                }
+
+                this.checkRegisterForm();
 
                 const registerRequest = {
                     email: this.email,
-                    password: this.password
+                    password: this.password,
+                    role: this.role,
+                    firstName: this.firstName,
+                    middleName: this.middleName,
+                    lastName: this.lastName,
+                    dateOfBirth: this.dateOfBirth,
+                    street: this.street,
+                    houseNr: this.houseNr,
+                    postalCode: this.postalCode,
+                    city: this.city
                 }
 
                 await axios.post('http://localhost:8080/api/v1/auth/register', registerRequest);
+
                 await router.push({ path: '/' })
             } catch (error) {
                 console.error(error);
+            }
+        },
+        checkRegisterForm(){
+            if ( !this.email.includes("@") || this.email.isEmpty ||
+                this.password.isEmpty || this.password.length < 6) {
+                return this.formIsValid = false;
+            }
+            if (this.firstName.length <= 1 || this.lastName.length <= 1) {
+                return this.formIsValid = false;
+            }
+            if (this.street.length <= 1 ||
+                this.houseNr.length <= 1 ||
+                this.postalCode.length <= 1 ||
+                this.postalCode.length > 6 ||
+                this.city.length <= 1
+            ) {
+                return this.formIsValid = false;
             }
         },
         logout() {
