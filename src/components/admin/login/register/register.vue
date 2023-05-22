@@ -70,7 +70,7 @@ export default {
         return {
             email: "",
             password: "",
-            role: 0,
+            role: "",
             firstName: "",
             middleName: "",
             lastName: "",
