@@ -19,10 +19,12 @@
 <script>
 import axios from "axios";
 import ShopItem from "@/components/shop/shop-item/shop-item.vue";
+import ShoppingCart from "@/components/shared/order/shopping-cart.vue";
 
 export default {
   name: "shop-content",
-  components: { ShopItem },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { ShopItem, ShoppingCart },
   data() {
     return {
       shopItems: [],

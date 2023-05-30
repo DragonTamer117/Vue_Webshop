@@ -23,7 +23,7 @@
               <button
                   class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap
                   rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600 onAddToCart"
-                  @click=onAddToCart(storageProduct)
+                  @click=addProductToOrder(this.storageProduct)
               >
                 In Winkelwagen
               </button>
@@ -36,13 +36,23 @@
 </template>
 
 <script>
+// import mitt from 'mitt'
 
+// const emitter = mitt()
+
+import {StoreVars} from "@/components/shop/shop-item/StoreVars";
+// const store = StoreVars();
 export default {
   name: "shop-item",
+  components: { },
   props: ['storageProduct'],
   methods: {
-    onAddToCart() {
-      this.$emit('add-to-cart', this.storageProduct);
+    addProductToOrder() {
+      const store = StoreVars();
+      console.log(this.storageProduct);
+      store.orders.push(this.storageProduct);
+      console.log(store.orders);
+      // emitter.emit("addProductToOrder", this.storageProduct);
     }
   }
 }
