@@ -50,8 +50,8 @@ export default {
     addProductToOrder() {
       const store = StoreVars();
       console.log(this.storageProduct);
-      store.orders.push(this.storageProduct);
-      console.log(store.orders);
+      store.storageProduct.push(this.storageProduct);
+      console.log(store.storageProduct);
       // emitter.emit("addProductToOrder", this.storageProduct);
     }
   }

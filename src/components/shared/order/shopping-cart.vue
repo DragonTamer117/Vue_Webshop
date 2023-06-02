@@ -1,14 +1,17 @@
 <template>
-  <div v-if="orders.isEmpty || orders.length < 1">
-    <p>
-      there are no order!
-    </p>
-    <button @click="getProductsFromOrder()">get orders</button>
-  </div>
-  <div v-if="orders.length >= 1">
-    <p>
-      there are order(s)!
-    </p>
+  <div>
+    <div class="flex flex-wrap ">
+      <div>
+        totale kosten: {{ totalPrice }}
+      </div>
+      <div class="sm:w-full pr-4 pl-4">
+        <cart-items
+            v-for="item in storageProduct"
+            v-bind:key="item.id"
+            :storage-product="item"
+        ></cart-items>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,24 +19,35 @@
 
 import ShopItem from "@/components/shop/shop-item/shop-item.vue";
 import {StoreVars} from "@/components/shop/shop-item/StoreVars";
-import Payment from "@/components/shared/order/payment/payment.vue";
+import CartItems from "@/components/shared/order/cart-items/cart-items.vue";
 
 export default {
   name: "shopping-cart-component",
   // eslint-disable-next-line vue/no-unused-components
-  components: {ShopItem, Payment, },
-  props: ['storageProduct'],
+  components: { CartItems, ShopItem },
   data() {
     return {
-      orders: [],
+      storageProduct: [],
+      totalPrice: 0
     }
   },
   methods: {
-    getProductsFromOrder() {
+    async getProductsFromOrder() {
+      // let order: Order;
       const store = StoreVars();
-      this.orders = store.orders;
-      console.log(this.orders);
+      this.storageProduct = store.storageProduct;
+      console.log(this.storageProduct);
+      this.calcTotalPrice();
+    },
+    calcTotalPrice(){
+      for (let i = 0; i < this.storageProduct.length; i++) {
+        let product = this.storageProduct[i];
+        this.totalPrice = this.totalPrice + product.price;
+      }
     }
+  },
+  beforeMount() {
+    this.getProductsFromOrder();
   }
 }
 </script>
