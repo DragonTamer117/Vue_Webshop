@@ -1,9 +1,10 @@
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia'
 
 export const StoreVars = defineStore('test', {
     state: () => {
         return{
-            storageProduct: []
+            storageProduct: [],
+            token: '',
         }
     }
 })
