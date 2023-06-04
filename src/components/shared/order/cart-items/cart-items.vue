@@ -28,6 +28,16 @@ import {defineComponent} from 'vue'
 export default defineComponent({
   name: "cart-items",
   props: ['storageProduct'],
+  methods: {
+    removeFromOrder(storageProduct) {
+      StoreVars().storageProduct.pop(storageProduct.id);
+      if (this.$parent.$data.totalPrice > 0) {
+        this.$parent.$data.totalPrice = this.$parent.$data.totalPrice - storageProduct.price;
+      } else {
+        this.$parent.$data.totalPrice = 0;
+      }
+    }
+  }
 })
 </script>
 
