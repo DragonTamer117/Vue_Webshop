@@ -62,7 +62,7 @@ export default {
         this.totalPrice = this.totalPrice + product.price;
       }
     },
-    sendOrder(){
+    sendOrder() {
       const config = {
         headers: { Authorization: `Bearer ${this.token}`}
       };
