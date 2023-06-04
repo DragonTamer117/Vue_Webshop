@@ -39,6 +39,7 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import {StoreVars} from "@/components/shop/shop-item/StoreVars";
 
 export default {
     name: "login-component",
@@ -70,8 +71,10 @@ export default {
 
                 const { data } = await axios.post('http://localhost:8080/api/v1/auth/login', authenticationRequest);
                 this.token = data.token;
+                const store = StoreVars();
+                store.token = this.token;
                 this.loggedInCheck = true;
-                await router.push({ path: '/' })
+                await router.push({ path: '/order' })
             } catch (error) {
                 console.error(error);
             }
@@ -81,7 +84,7 @@ export default {
                 this.token = "";
                 return this.loggedInCheck = false;
             }
-        }
+        },
     },
     mounted() {
         this.submitForm();
