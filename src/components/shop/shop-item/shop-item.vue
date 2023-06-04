@@ -36,12 +36,8 @@
 </template>
 
 <script>
-// import mitt from 'mitt'
+import { StoreVars } from "@/components/shop/shop-item/StoreVars";
 
-// const emitter = mitt()
-
-import {StoreVars} from "@/components/shop/shop-item/StoreVars";
-// const store = StoreVars();
 export default {
   name: "shop-item",
   components: { },
@@ -49,10 +45,7 @@ export default {
   methods: {
     addProductToOrder() {
       const store = StoreVars();
-      console.log(this.storageProduct);
       store.storageProduct.push(this.storageProduct);
-      console.log(store.storageProduct);
-      // emitter.emit("addProductToOrder", this.storageProduct);
     }
   }
 }
