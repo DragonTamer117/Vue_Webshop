@@ -45,7 +45,7 @@ export default defineComponent({
     removeFromOrder(storageProduct) {
       StoreVars().storageProduct.pop(storageProduct.id);
       if (this.$parent.$data.totalPrice > 0) {
-        this.$parent.$data.totalPrice = this.$parent.$data.totalPrice - storageProduct.price;
+        this.$parent.$data.totalPrice -= storageProduct.price;
       } else {
         this.$parent.$data.totalPrice = 0;
       }
