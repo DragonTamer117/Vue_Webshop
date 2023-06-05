@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     async getProductsFromOrder() {
-      // let order: Order;
       const store = StoreVars();
       this.storageProduct = store.storageProduct;
       this.calcTotalPrice();
@@ -59,7 +58,7 @@ export default {
     calcTotalPrice() {
       for (let i = 0; i < this.storageProduct.length; i++) {
         let product = this.storageProduct[i];
-        this.totalPrice = this.totalPrice + product.price;
+        this.totalPrice += product.price;
       }
     },
     sendOrder() {
