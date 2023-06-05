@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import login from "@/components/admin/login/login.vue";
+import login from "@/components/shared/login/login.vue";
 import axios from "axios";
 import router from "@/router";
 

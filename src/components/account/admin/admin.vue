@@ -1,10 +1,10 @@
 <template>
-
+<P>je moeder</P>
 </template>
 
 <script>
 export default {
-  name: "manage"
+  name: "admin-component"
 }
 </script>
 
