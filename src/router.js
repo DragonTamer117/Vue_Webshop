@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ShopContent from "@/components/shop/shop-content.vue";
-import Login from "@/components/admin/login/login.vue";
-import Register from "@/components/admin/login/register/register.vue";
-import Order from "@/components/shared/order/shopping-cart.vue";
+import Login from "@/components/shared/login/login.vue";
+import Register from "@/components/shared/login/register/register.vue";
+import Admin from "@/components/account/admin/admin.vue";
+import Customer from "@/components/account/customer/customer.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -10,10 +11,8 @@ const router = createRouter({
         { name: 'shop-content', path: '/', meta: { needsAuth: false }, components: { default: ShopContent } },
         { name: 'login-component', path: '/login', meta: { needsAuth: false }, components: { default: Login } },
         { name: 'register-component', path: '/register', meta: { needsAuth: false }, components: { default: Register } },
-        { name: 'shopping-cart-component', path: '/order', meta: { needsAuth: true }, components: { default: Order } },
-        // { name: 'shop-item', path: '/login', meta: { needsAuth: false }, components: { default: ShopItem } },
-        // { name: 'shop-item', path: '/registration', meta: { needsAuth: false }, components: { default: ShopItem } },
-        // { name: 'shop-item', path: '/account', meta: { needsAuth: false }, components: { default: ShopItem } },
+        { name: 'admin-component', path: '/admin', meta: { needsAuth: true }, components: { default: Admin } },
+        { name: 'customer-component', path: '/account', meta: { needsAuth: true }, components: { default: Customer } }
     ],
     linkActiveClass: 'active',
     scrollBehavior(_, _2, savedPosition) {
