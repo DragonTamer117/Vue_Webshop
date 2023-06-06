@@ -8,7 +8,6 @@ import eventBus from 'vue3-eventbus'
 const pinia = createPinia()
 const app = createApp(App);
 
-// Create a new store instance.
 const store = createStore({
     state () {
         return {
