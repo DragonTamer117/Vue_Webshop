@@ -35,7 +35,6 @@
   </div>
 </template>
 
-
 <script>
 import { StoreVars } from "@/components/shop/shop-item/StoreVars";
 import CartItems from "@/components/shared/order/cart-items/cart-items.vue";
@@ -65,7 +64,7 @@ export default {
     },
     async sendOrder() {
       const config = {
-        headers: { Authorization: `Bearer ${this.token}`}
+        headers: { Authorization: `Bearer ${StoreVars().token}`}
       };
       const requestBody = {
         products: this.storageProduct.map(product => product.id)
@@ -73,16 +72,16 @@ export default {
 
       console.log(config);
 
-      axios.post('http://localhost:8080/api/v1/orders', requestBody, config);
-    },
-    getToken() {
-      const store = StoreVars();
-      this.token = store.token;
+      await axios.post('http://localhost:8080/api/v1/orders', requestBody, config).then(() => {
+        this.storageProduct = [];
+        StoreVars().storageProduct = [];
+        this.totalPrice = 0;
+      });
     }
   },
   beforeMount() {
     this.getProductsFromOrder();
-    this.getToken();
+    this.token = StoreVars().token;
   }
 }
 </script>
