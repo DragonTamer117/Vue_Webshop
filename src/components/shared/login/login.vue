@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loggedInCheck === false">
+    <div v-if="auth().state.isAuthenticated === false">
         <section class="bg-gray-50 dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -28,59 +28,43 @@
             </div>
         </section>
     </div>
-    <div v-if="loggedInCheck === true">
-        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Do you want to logout? <a @click="logout()" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Yes!</a>
-        </p>
-    </div>
 </template>
 
 
 <script>
-import axios from "axios";
+import { auth } from "@/services/auth";
 import router from "@/router";
-import { StoreVars } from "@/components/shop/shop-item/StoreVars";
 
 export default {
     name: "login-component",
     data() {
         return {
-            email: "",
-            password: "",
-            loggedInCheck: Boolean,
+            email: "customer@users.com",
+            password: "customer",
             formIsValid: true,
             mode: "login",
         }
     },
     methods: {
+      auth() {
+        return auth
+      },
         async submitForm() {
-          const store = StoreVars();
           try {
-              this.loggedInCheck = false;
               this.formIsValid = true;
-              if ( !this.email.includes("@") || this.email.isEmpty ||
+              if (!this.email.includes("@") || this.email.isEmpty ||
                   this.password.isEmpty || this.password.length < 6) {
                   return this.formIsValid = false;
               }
 
-              const authenticationRequest = {
-                  email: this.email,
-                  password: this.password
-              }
-
-              const { data } = await axios.post('http://localhost:8080/api/v1/auth/login', authenticationRequest);
-              store.token = data.token;
-              this.loggedInCheck = true;
+              await auth.login(this.email, this.password);
               await router.push({ path: '/order' })
           } catch (error) {
               console.error(error);
           }
         },
         logout() {
-            if (this.loggedInCheck === true) {
-                StoreVars().token = "";
-                return this.loggedInCheck = false;
-            }
+            auth.logout();
         },
     },
     mounted() {
