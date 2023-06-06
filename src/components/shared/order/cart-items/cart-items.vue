@@ -1,8 +1,7 @@
 <template>
-  <a
-      class="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline clearfix">
+  <a class="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline clearfix">
     <div class="list-group-item-heading">
-      <div class="flex flex-wrap ">
+      <div class="flex flex-wrap">
         <div class="sm:w-1/2 pr-4 pl-4">
         <span class="pull-left">
           <img
