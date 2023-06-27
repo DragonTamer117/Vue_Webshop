@@ -99,8 +99,8 @@ export default {
                 city: this.city
               }
 
-              await axios.post('http://localhost:8080/api/v1/auth/register', registerRequest);
-              await router.push({ path: '/' })
+              await axios.post('http://localhost:8080/api/v1/auth/register', registerRequest)
+                  .then(router.push({ path: '/' }));
             } catch (error) {
                 console.error(error);
             }
