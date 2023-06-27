@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-gray-100">
-    <header class="bg-white shadow">
+  <div class="bg-gray-100 dark:bg-slate-800">
+    <header class="bg-white dark:bg-slate-700 shadow">
       <div class="container mx-auto px-4 py-6">
-        <h1 class="text-3xl font-bold text-gray-800">Order Details</h1>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Order Details</h1>
       </div>
     </header>
     <main class="container mx-auto px-4 py-6">
-      <div class="bg-white shadow rounded-lg p-6">
+      <div class="bg-white shadow rounded-lg p-6 dark:bg-slate-700 ">
         <h2 class="text-xl font-bold mb-0 mt-0">Order Information</h2>
         <div v-if="orders.length === 0">
           <p class="text-gray-500">No orders found.</p>
@@ -26,9 +26,13 @@
               <td class="border px-4 py-2">{{ formatDate(order.date) }}</td>
               <td class="border px-4 py-2">
                 <div class="product-tile" :class="{ 'expanded': order.expanded }">
-                  <p>{{ order.products[0].name }} - &euro;{{ order.products[0].price }}</p>
+                  <p v-if="!order.expanded">
+                    {{ order.products.length !== 1 ?
+                      'Artikelen: ' + order.products.length :
+                      order.products[0].name + ' - &euro; ' + order.products[0].price }}
+                  </p>
                   <div v-if="order.expanded" class="more-products">
-                    <p v-for="product in order.products.slice(1)" :key="product.id">{{ product.name }} - &euro;{{ product.price }}</p>
+                    <p v-for="product in order.products" :key="product.id">{{ product.name }} - &euro; {{ product.price }}</p>
                   </div>
                   <div class="justify-center flex">
                     <button @click="toggleProductList(order)" class="mt-2 text-blue-500 hover:underline focus:outline-none">
@@ -77,14 +81,10 @@ export default defineComponent({
 .product-tile {
   overflow: hidden;
   transition: max-height 0.3s ease;
-  max-height: 50px; /* Adjust the initial height as needed */
+  max-height: 50px;
 }
 
 .product-tile.expanded {
   max-height: none;
-}
-
-.more-products {
-  margin-top: 10px;
 }
 </style>
