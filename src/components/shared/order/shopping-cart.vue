@@ -46,7 +46,6 @@
       Go to Login
     </router-link>
   </div>
-
 </template>
 
 <script>
@@ -83,7 +82,6 @@ export default {
       const requestBody = {
         products: this.storageProduct.map(product => product.id)
       }
-
       console.log(requestBody);
 
       await axios.post('http://localhost:8080/api/v1/orders', requestBody, config).then(() => {

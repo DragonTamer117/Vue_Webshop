@@ -39,6 +39,7 @@ import { StoreVars } from "@/components/shop/shop-item/StoreVars";
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
+
 export default {
   name: "shop-item",
   components: { },

@@ -161,6 +161,9 @@ export default {
         auth.logout();
       }
     }
+  },
+  beforeMount() {
+    this.getProductsFromOrder();
   }
 };
 </script>
