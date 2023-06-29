@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen flex-col h-auto m-0">
-    <app-navbar></app-navbar>
-    <div>
+    <app-navbar class="fixed top-0 left-0 right-0 z-10"></app-navbar>
+    <div class="mt-80 md:mt-18">
       <router-view></router-view>
     </div>
   </div>
@@ -19,4 +19,11 @@ export default {
 </script>
 
 <style>
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 dark:bg-slate-800 dark:text-slate-50
+}
 </style>

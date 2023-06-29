@@ -1,10 +1,10 @@
 <template>
-  <button @click="getAllUsers">GetAllUsers</button>
-  <p></p>
-  <button @click="getUserById('4a3addaa-6926-487c-a865-bbaad603be45')">GetUserById</button>
   <div class="flex flex-wrap ">
     <div class="sm:w-full pr-4 pl-4">
-      <div class="relative px-3 py-3 mb-4 border rounded bg-red-200 border-red-300 text-red-800" v-if="shopItems.length === 0">
+      <div
+          v-if="shopItems.length === 0"
+          class="relative px-3 py-3 mb-4 border rounded bg-red-200 border-red-300 text-red-800"
+      >
         <p><strong>Probleem met laden van de WinkelInhoud</strong></p>
       </div>
       <shop-item
@@ -35,28 +35,6 @@ export default {
       try {
         const response = await axios.get('http://localhost:8080/api/v1/storageProducts');
         this.shopItems = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async getAllUsers() {
-      try {
-        const config = {
-          headers: { Authorization: `Bearer ${this.token}`}
-        };
-        const response = await axios.get('http://localhost:8080/api/v1/users', config);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async getUserById(id) {
-      try {
-        const config = {
-          headers: { Authorization: `Bearer ${this.token}`}
-        };
-        const response = await axios.get('http://localhost:8080/api/v1/users/' + id, config);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }

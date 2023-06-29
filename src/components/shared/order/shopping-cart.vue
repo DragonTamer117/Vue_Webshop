@@ -1,38 +1,52 @@
 <template>
-  <div v-if="this.token.length >= 1" class="flex flex-col items-center">
-    <div class="sm:w-full pr-4 pl-4">
+  <div v-if="token.length >= 1" class="flex flex-col items-center relative">
+    <div class="sm:w-full pl-4 pr-4">
+      <div v-if="storageProduct.length === 0" class="flex flex-col items-center mt-20 md:mt-72">
+        <p class="text-gray-600 dark:text-white my-4">
+          Uw winkelwagen is leeg!
+        </p>
+        <router-link
+            :to="{ path: '/'}"
+            class="inline-block px-4 py-2 text-center text-white bg-blue-600 rounded hover:bg-blue-700"
+        >
+          Terug naar de Webwinkel
+        </router-link>
+      </div>
       <cart-items
-          v-for="item in storageProduct"
-          v-bind:key="item.id"
+          v-for="(item, index) in getUniqueProducts()"
+          :key="index"
           :storage-product="item"
       ></cart-items>
     </div>
-    <div class="flex flex-wrap items-center">
-      <div class="text-center mx-auto mb-4 font-bold mt-4 mr-4">
-        Totale kosten: &euro; {{ totalPrice }},-
-      </div>
-      <div class="text-center mx-auto">
-        <button
-            class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap
-                  rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600 onAddToCart"
-            @click="sendOrder(storageProduct)"
-        >
-          Bestellen
-        </button>
-      </div>
+    <div class="right-0 bottom-3 mr-4 mt-4 fixed shadow-2xl border-2 rounded-xl p-3 border-blue-500">
+      <p>Totale kosten: <b>&euro; {{ totalPrice }},-</b></p>
+      <p>Artikelen: <b>{{ storageProduct.length }}</b></p>
+      <button
+          :class="[
+              'inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 ' +
+              'px-3 leading-normal no-underline',
+              storageProduct.length > 0 ? 'bg-blue-600 text-white hover:bg-blue-600' : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+              ]"
+          @click="sendOrder(storageProduct)"
+          :disabled="storageProduct.length < 1"
+      >
+        Bestellen
+      </button>
     </div>
   </div>
-  <div v-if="this.token.length <= 0" class="flex flex-col items-center justify-center h-screen">
+  <div v-if="token.length <= 0" class="flex flex-col items-center font-semibold justify-center h-screen">
+    <p class="bg-yellow-200 text-yellow-800 p-4 rounded-lg shadow-md mb-4 underline font-italic">
+      You have to be logged in before you can place an order.
+    </p>
     <router-link
         :to="{ path: `login` }"
-        class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap
-                  rounded py-1 px-3 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-600"
+        class="inline-block text-center select-none border font-normal whitespace-no-wrap font-semibold
+            rounded py-2 px-4 leading-normal no-underline bg-blue-600 text-white hover:bg-blue-700"
     >
-      U moet inloggen of de bestelling af te ronden.
+      Go to Login
     </router-link>
   </div>
 </template>
-
 
 <script>
 import { StoreVars } from "@/components/shop/shop-item/StoreVars";
@@ -46,7 +60,7 @@ export default {
     return {
       storageProduct: [],
       totalPrice: 0,
-      token: ''
+      token: ""
     }
   },
   methods: {
@@ -61,26 +75,38 @@ export default {
         this.totalPrice += product.price;
       }
     },
-    sendOrder() {
+    async sendOrder() {
       const config = {
-        headers: { Authorization: `Bearer ${this.token}`}
+        headers: { Authorization: `Bearer ${StoreVars().token}`}
       };
       const requestBody = {
         products: this.storageProduct.map(product => product.id)
       }
+      console.log(requestBody);
 
-      console.log(config);
-
-      axios.post('http://localhost:8080/api/v1/orders', requestBody, config);
+      await axios.post('http://localhost:8080/api/v1/orders', requestBody, config).then(() => {
+        this.storageProduct = [];
+        StoreVars().storageProduct = [];
+        this.totalPrice = 0;
+      });
     },
-    getToken() {
-      const store = StoreVars();
-      this.token = store.token;
+    getUniqueProducts() {
+      const uniqueProducts = [];
+      const addedProductIds = [];
+
+      for (const product of this.storageProduct) {
+        if (!addedProductIds.includes(product.id)) {
+          uniqueProducts.push(product);
+          addedProductIds.push(product.id);
+        }
+      }
+
+      return uniqueProducts;
     }
   },
   beforeMount() {
     this.getProductsFromOrder();
-    this.getToken();
+    this.token = StoreVars().token;
   }
 }
 </script>
