@@ -169,8 +169,6 @@ export default defineComponent({
         city: this.currentUser.city
       };
 
-      console.log(body);
-
       await axios.put(auth.baseUrl + `users/${id}`, body, config).then(() => {
         toast.success("Saved!", {
           autoClose: 1000,
