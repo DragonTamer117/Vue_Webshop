@@ -118,6 +118,7 @@ import { StoreVars } from "@/components/shop/shop-item/StoreVars";
 import axios from "axios";
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import router from "@/router";
 
 export default defineComponent({
   name: "account-details",
@@ -177,6 +178,8 @@ export default defineComponent({
           closeOnClick: true,
           closeButton: true,
         });
+
+        router.push('/');
       });
     },
     formatDate(dateString) {
